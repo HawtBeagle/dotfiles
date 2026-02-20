@@ -1,0 +1,55 @@
+# You can use it to add your own keybindings to aerospace.
+# All possible keys: https://nikitabobko.github.io/AeroSpace/guide#key-binding
+
+# Gaps between windows
+[gaps]
+inner.horizontal = 10
+inner.vertical = 10
+outer.left = 10
+outer.bottom = 10
+outer.top = 10
+outer.right = 10
+
+[mode.main.binding]
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# Custom Workspaces
+alt-q = 'workspace Q'
+alt-t = 'workspace T'
+alt-s = 'workspace S'
+alt-d = 'workspace D'
+alt-c = 'workspace C'
+alt-b = 'workspace B'
+
+alt-shift-q = 'move-node-to-workspace Q'
+alt-shift-t = 'move-node-to-workspace T'
+alt-shift-s = 'move-node-to-workspace S'
+alt-shift-d = 'move-node-to-workspace D'
+alt-shift-c = 'move-node-to-workspace C'
+alt-shift-b = 'move-node-to-workspace B'
+
+alt-tab = 'workspace-back-and-forth'
+alt-f = 'fullscreen'
+alt-comma = 'layout accordion horizontal vertical'
+alt-slash = 'layout tiles horizontal vertical'
+cmd-q = 'close'
+alt-shift-semicolon = 'mode service'
+
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+r = ['reload-config', 'mode main']
+f = ['flatten-workspace-tree', 'mode main']
+backspace = ['close-all-windows-but-current', 'mode main']
+
+alt-shift-h = ['join-with left', 'mode main']
+alt-shift-j = ['join-with down', 'mode main']
+alt-shift-k = ['join-with up', 'mode main']
+alt-shift-l = ['join-with right', 'mode main']

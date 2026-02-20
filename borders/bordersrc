@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Catppuccin Mocha Colors
+# Active: Blue (#89b4fa)
+# Inactive: Transparent Surface (#44313244)
+
+borders \
+    width=6.0 \
+    hidpi=on \
+    active_color=0xff89b4fa \
+    inactive_color=0x44313244 \
+    background_color=0x00000000 \
+    style=rounded \
+    radius=12.0 \
+    &
