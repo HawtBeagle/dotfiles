@@ -1,0 +1,61 @@
+# --- Java/Maven/Gradle ---
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/resources/archetype-resources/**
+!**/src/test/resources/archetype-resources/**
+build/
+.gradle/
+bin/
+out/
+.metadata/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# --- IDEs ---
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VS Code
+.vscode/
+.history/
+
+# Eclipse
+.settings/
+.project
+.classpath
+.factorypath
+
+# Neovim (JDTLS)
+.jdtls/
+jdtls-workspace/
+
+# --- Spring Boot ---
+*.jks
+*.p12
+*.crt
+*.der
+application-local.properties
+application-local.yml
+application-dev.properties
+application-dev.yml
+
+# --- OS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+Thumbs.db
+
+# --- Miscellaneous ---
+.env
+.env.local
+.terraform/
+dist/
+node_modules/

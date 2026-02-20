@@ -1,0 +1,36 @@
+# OS generated files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+.settings/
+.project
+.classpath
+.factorypath
+.nvim/
+
+# Build systems
+.gradle/
+build/
+bin/
+out/
+target/
+
+# Local Configs (Universal)
+local-config.json
+.env
+application-local.properties
+application-local.yml
+
+# Compiled class files
+*.class
+
+# Log files
+*.log

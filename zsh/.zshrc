@@ -53,6 +53,10 @@ alias lt='eza --tree --icons=always'
 alias doc='open ~/Desktop/Personal/dotfiles-docs/index.html'
 alias reload='source ~/.zshrc'
 alias cd='z'
+alias lg='lazygit'
+alias cat='bat'
+alias top='btm'
+export BAT_THEME="Catppuccin Mocha"
 
 # --- SDKMAN (if installed) ---
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
@@ -71,3 +75,6 @@ eval "$(zoxide init zsh)"
 zstyle ':fzf-tab:*' fzf-command fzf
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --icons=always $realpath'
 zstyle ':fzf-tab:*' switch-group ',' '.'
+
+# Local Run Tool
+alias localrun='~/Desktop/Personal/dotfiles/scripts/localrun.py'
