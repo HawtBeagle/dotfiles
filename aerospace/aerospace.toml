@@ -1,5 +1,6 @@
-# You can use it to add your own keybindings to aerospace.
-# All possible keys: https://nikitabobko.github.io/AeroSpace/guide#key-binding
+# AeroSpace Configuration
+# Notify SketchyBar on workspace change (Must be top-level)
+exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change']
 
 # Gaps between windows
 [gaps]

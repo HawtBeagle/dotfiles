@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# --- Catppuccin Mocha Colors ---
+BAR_COLOR=0xcc1e1e2e
+ITEM_BG_COLOR=0xff313244
+ACCENT_COLOR=0xffcba6f7
+TEXT_COLOR=0xffcdd6f4
+
+# Right Side Pill Colors
+CPU_COLOR=0xff89b4fa
+BATT_COLOR=0xffa6e3a1
+CLOCK_COLOR=0xfffab387
+DARK_BG=0xff1e1e2e
+
+# --- Global Bar Config ---
+sketchybar --bar \
+  height=36 \
+  color=$BAR_COLOR \
+  position=top \
+  sticky=on \
+  padding_left=15 \
+  padding_right=15 \
+  margin=10 \
+  y_offset=5 \
+  blur_radius=30 \
+  corner_radius=10 \
+  border_width=2 \
+  border_color=$CPU_COLOR
+
+# --- Default Item Config ---
+sketchybar --default \
+  icon.font="Symbols Nerd Font Mono:Regular:16.0" \
+  label.font="Hack Nerd Font:Bold:14.0" \
+  icon.color=$TEXT_COLOR \
+  label.color=$TEXT_COLOR \
+  background.height=26 \
+  background.corner_radius=8
+
+# --- AeroSpace Workspaces ---
+sketchybar --add event aerospace_workspace_change
+
+for workspace in Q T S D C B; do
+  sketchybar --add item "workspace.$workspace" left \
+    --set "workspace.$workspace" \
+    label="$workspace" \
+    label.padding_left=12 \
+    label.padding_right=12 \
+    padding_left=5 \
+    padding_right=5 \
+    icon.drawing=off \
+    click_script="aerospace workspace $workspace" \
+    script="$CONFIG_DIR/plugins/aerospace.sh $workspace" \
+    --subscribe "workspace.$workspace" aerospace_workspace_change
+done
+
+# --- Right Side Modules (Matching tmux precisely) ---
+# Each pill has wide internal padding (12px) and a large external gap (15px)
+sketchybar --add item cpu right \
+  --set cpu update_freq=2 \
+  icon="󰍛" \
+  icon.color=$DARK_BG \
+  icon.padding_left=12 \
+  label.color=$DARK_BG \
+  label.padding_right=12 \
+  background.color=$CPU_COLOR \
+  background.drawing=on \
+  padding_left=15 \
+  script="$CONFIG_DIR/plugins/cpu.sh" \
+  \
+  --add item battery right \
+  --set battery update_freq=60 \
+  icon.color=$DARK_BG \
+  icon.padding_left=12 \
+  label.color=$DARK_BG \
+  label.padding_right=12 \
+  background.color=$BATT_COLOR \
+  background.drawing=on \
+  padding_left=15 \
+  script="$CONFIG_DIR/plugins/battery.sh" \
+  \
+  --add item clock right \
+  --set clock update_freq=10 \
+  icon="󰃰" \
+  icon.color=$DARK_BG \
+  icon.padding_left=12 \
+  label.color=$DARK_BG \
+  label.padding_right=12 \
+  background.color=$CLOCK_COLOR \
+  background.drawing=on \
+  padding_left=15 \
+  script="$CONFIG_DIR/plugins/clock.sh"
+
+sketchybar --update

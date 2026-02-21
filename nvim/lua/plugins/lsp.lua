@@ -5,7 +5,7 @@ return {
     cmd = "Mason",
     build = ":MasonUpdate",
     opts = {
-      ensure_installed = { "jdtls", "yamlls" },
+      ensure_installed = { "jdtls", "yamlls", "google-java-format", "stylua" },
     },
   },
   {
