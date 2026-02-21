@@ -7,6 +7,12 @@ local config = wezterm.config_builder()
 config.initial_cols = 120
 config.initial_rows = 28
 config.font_size = 16
+config.font = wezterm.font_with_fallback({
+  "JetBrainsMono Nerd Font",
+  "JetBrains Mono Nerd Font",
+  "JetBrainsMonoNF",
+  "Hack Nerd Font", -- Second fallback
+})
 
 -- Color Theme Matching tmux (Catppuccin Mocha base)
 config.color_scheme = 'Catppuccin Mocha'
