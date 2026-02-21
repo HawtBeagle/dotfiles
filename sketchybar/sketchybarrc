@@ -42,12 +42,11 @@ sketchybar --add event aerospace_workspace_change
 for workspace in Q T S D C B; do
   sketchybar --add item "workspace.$workspace" left \
     --set "workspace.$workspace" \
-    label="$workspace" \
+    icon.padding_left=12 \
     label.padding_left=12 \
     label.padding_right=12 \
     padding_left=5 \
     padding_right=5 \
-    icon.drawing=off \
     click_script="aerospace workspace $workspace" \
     script="$CONFIG_DIR/plugins/aerospace.sh $workspace" \
     --subscribe "workspace.$workspace" aerospace_workspace_change
