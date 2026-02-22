@@ -9,6 +9,7 @@ return {
     config = function()
       local telescope = require("telescope")
       local themes = require("telescope.themes")
+      local actions = require("telescope.actions")
       
       -- Custom path shortening function
       local function shorten_path(path)
@@ -28,7 +29,7 @@ return {
               prompt_position = "top",
               preview_width = 0.55,
             },
-            width = 0.85,
+            width = 0.90,
             height = 0.80,
           },
           sorting_strategy = "ascending",
@@ -52,29 +53,20 @@ return {
         }
       })
       
-      -- Load the fzf extension
       telescope.load_extension('fzf')
-      
       local builtin = require("telescope.builtin")
       
-      -- IntelliJ "Search Everywhere" (leader leader)
+      -- IntelliJ "Search Everywhere"
       vim.keymap.set("n", "<leader><leader>", function()
         builtin.find_files(themes.get_dropdown({
           previewer = false,
           layout_config = { width = 0.6, height = 0.4 },
-          prompt_title = "Search Everywhere",
         }))
-      end, { desc = "Search Everywhere (IntelliJ Style)" })
+      end)
 
-      -- Standard pickers with top-prompt dropdown
-      vim.keymap.set("n", "<leader>ff", function()
-        builtin.find_files(themes.get_dropdown({ previewer = false }))
-      end, { desc = "Find Files" })
-      
-      vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live Grep" })
-      vim.keymap.set("n", "<leader>fb", function()
-        builtin.buffers(themes.get_dropdown({ previewer = false }))
-      end, { desc = "Buffers" })
+      vim.keymap.set("n", "<leader>ff", builtin.find_files)
+      vim.keymap.set("n", "<leader>fg", builtin.live_grep)
+      vim.keymap.set("n", "<leader>fb", builtin.buffers)
     end,
   },
 }

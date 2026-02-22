@@ -57,7 +57,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client.name == "jdtls" then
+    if client and client.name == "jdtls" then
       local opts = { buffer = bufnr, silent = true }
       -- Extract Method
       vim.keymap.set("v", "<leader>rm", "<Esc><Cmd>lua require('jdtls').extract_method(true)<CR>", { buffer = bufnr, desc = "Extract Method" })
