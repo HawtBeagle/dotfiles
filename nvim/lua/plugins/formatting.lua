@@ -16,15 +16,14 @@ return {
     opts = {
       formatters_by_ft = {
         lua = { "stylua" },
-        java = { "google-java-format" }, -- Standard Java format
+        -- Use LSP formatting for Java to respect .editorconfig/IntelliJ settings
+        java = { "lsp" }, 
         javascript = { { "prettierd", "prettier" } },
         json = { "jq" },
         yaml = { "prettier" },
       },
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
+      -- Disable auto-format on save to prevent git noise
+      format_on_save = false, 
     },
   },
 }
