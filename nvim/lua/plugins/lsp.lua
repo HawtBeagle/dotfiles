@@ -5,7 +5,13 @@ return {
     cmd = "Mason",
     build = ":MasonUpdate",
     opts = {
-      ensure_installed = { "jdtls", "yamlls", "google-java-format", "stylua" },
+      ensure_installed = { 
+        "jdtls", 
+        "yamlls", 
+        "stylua",
+        "java-debug-adapter",
+        "java-test",
+      },
     },
   },
   -- LSP Config (Cleaned for Neovim 0.11+)

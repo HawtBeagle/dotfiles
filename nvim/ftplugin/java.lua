@@ -41,10 +41,16 @@ local config = {
     },
   },
   init_options = {
-    bundles = {},
+    bundles = {
+      vim.fn.glob(vim.fn.expand("~/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"), 1),
+    },
     extendedClientCapabilities = jdtls.extendedClientCapabilities,
   },
 }
+
+-- Load Java Test Bundles
+local test_bundles = vim.split(vim.fn.glob(vim.fn.expand("~/.local/share/nvim/mason/packages/java-test/extension/server/*.jar"), 1), "\n")
+vim.list_extend(config.init_options.bundles, test_bundles)
 
 -- Add Java-specific refactoring keybindings
 vim.api.nvim_create_autocmd("LspAttach", {
