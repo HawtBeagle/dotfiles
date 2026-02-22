@@ -15,6 +15,7 @@ export LC_ALL=en_US.UTF-8
 # Colorize more tools
 export CLICOLOR=1
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 
@@ -54,6 +55,7 @@ alias doc='open ~/Desktop/Personal/dotfiles-docs/index.html'
 alias reload='source ~/.zshrc'
 alias cd='z'
 alias lg='lazygit'
+alias mux-spring='tmuxinator start spring-boot'
 alias cat='bat'
 alias top='btm'
 export BAT_THEME="Catppuccin Mocha"

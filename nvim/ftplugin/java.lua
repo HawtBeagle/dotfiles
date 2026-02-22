@@ -26,7 +26,7 @@ local config = {
     "--jvm-arg=-javaagent:" .. vim.fn.expand("~/.local/share/nvim/mason/packages/jdtls/lombok.jar"),
   },
   root_dir = root_dir,
-  capabilities = capabilities, -- ADDED THIS
+  capabilities = capabilities,
   settings = {
     java = {
       signatureHelp = { enabled = true },
@@ -45,6 +45,23 @@ local config = {
     extendedClientCapabilities = jdtls.extendedClientCapabilities,
   },
 }
+
+-- Add Java-specific refactoring keybindings
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client.name == "jdtls" then
+      local opts = { buffer = bufnr, silent = true }
+      -- Extract Method
+      vim.keymap.set("v", "<leader>rm", "<Esc><Cmd>lua require('jdtls').extract_method(true)<CR>", { buffer = bufnr, desc = "Extract Method" })
+      -- Extract Variable
+      vim.keymap.set("v", "<leader>rv", "<Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>", { buffer = bufnr, desc = "Extract Variable" })
+      -- Extract Constant
+      vim.keymap.set("v", "<leader>rc", "<Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>", { buffer = bufnr, desc = "Extract Constant" })
+    end
+  end,
+})
 
 -- Start JDTLS
 jdtls.start_or_attach(config)

@@ -1,0 +1,16 @@
+# ~/.config/tmuxinator/spring-boot.yml
+
+# Dynamically set session name to project folder name
+name: <%= File.basename(Dir.pwd).gsub('.', '_') %>
+root: .
+
+windows:
+  - Code:
+      panes:
+        - nvim .
+  - Git:
+      panes:
+        - lg
+  - "Logs & Debug":
+      panes:
+        -  # Empty terminal

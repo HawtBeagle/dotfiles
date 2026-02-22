@@ -8,24 +8,18 @@ return {
       ensure_installed = { "jdtls", "yamlls", "google-java-format", "stylua" },
     },
   },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    opts = {
-      ensure_installed = { "yamlls" }, -- Only non-Java servers here
-    },
-  },
-  -- LSP Config (Modern Neovim 0.11+ style)
+  -- LSP Config (Cleaned for Neovim 0.11+)
   {
     "neovim/nvim-lspconfig",
     dependencies = {
       "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Modern Neovim 0.11 API (Bypasses deprecated lspconfig framework)
+      -- Use the modern Neovim 0.11+ API
+      -- This bypasses the deprecated lspconfig framework entirely
       if vim.lsp.config then
         -- Configure YAML
         vim.lsp.config("yamlls", {
@@ -39,6 +33,7 @@ return {
             },
           },
         })
+        -- Enable it
         vim.lsp.enable("yamlls")
       end
 
