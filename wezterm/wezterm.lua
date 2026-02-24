@@ -32,6 +32,8 @@ config.keys = {
   { key = '=', mods = 'CMD', action = wezterm.action.IncreaseFontSize },
   { key = '-', mods = 'CMD', action = wezterm.action.DecreaseFontSize },
   { key = '0', mods = 'CMD', action = wezterm.action.ResetFontSize },
+  -- Map Cmd + k to send Ctrl + k (triggers our new tmux clear command)
+  { key = 'k', mods = 'CMD', action = wezterm.action.SendString '\x0b' },
 }
 
 -- Finally, return the configuration to wezterm:

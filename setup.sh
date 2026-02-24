@@ -12,6 +12,7 @@ ln -sf ~/Desktop/Personal/dotfiles/nvim ~/.config/nvim
 ln -sf ~/Desktop/Personal/dotfiles/wezterm ~/.config/wezterm
 ln -sf ~/Desktop/Personal/dotfiles/borders ~/.config/borders
 ln -sf ~/Desktop/Personal/dotfiles/tmuxinator ~/.config/tmuxinator
+ln -sf ~/Desktop/Personal/dotfiles/yazi ~/.config/yazi
 
 # --- 2. Install TPM (Tmux Plugin Manager) ---
 if [ ! -d ~/.tmux/plugins/tpm ]; then

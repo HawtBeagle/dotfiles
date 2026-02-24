@@ -55,7 +55,17 @@ alias doc='open ~/Desktop/Personal/dotfiles-docs/index.html'
 alias reload='source ~/.zshrc'
 alias cd='z'
 alias lg='lazygit'
-alias jdtls-clear='rm -rf ~/.local/share/nvim/jdtls-workspace/ ~/.cache/nvim/jdtls && echo "JDTLS Cache cleared. Restart Neovim to re-index."'
+# JDTLS troubleshooting: Clear cache for the CURRENT project only
+function jdtls-clear() {
+    local project_name=$(basename "$PWD")
+    local workspace_dir="$HOME/.local/share/nvim/jdtls-workspace/$project_name"
+    local cache_dir="$HOME/.cache/nvim/jdtls"
+    
+    echo "Clearing JDTLS cache for project: $project_name..."
+    rm -rf "$workspace_dir"
+    rm -rf "$cache_dir"
+    echo "Done. Please restart Neovim to re-index."
+}
 alias mux-spring='tmuxinator start spring-boot'
 alias cat='bat'
 alias top='btm'
@@ -81,3 +91,13 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # Local Run Tool
 alias localrun='~/Desktop/Personal/dotfiles/scripts/localrun.py'
+
+# Yazi wrapper to change directory on exit
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}

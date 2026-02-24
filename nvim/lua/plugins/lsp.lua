@@ -60,7 +60,7 @@ return {
             builtin.lsp_implementations(themes.get_cursor(cursor_theme))
           end, { buffer = bufnr, desc = "Go to Implementation" })
           
-          vim.keymap.set("n", "gr", function()
+          vim.keymap.set("n", "sr", function()
             builtin.lsp_references(themes.get_cursor(cursor_theme))
           end, { buffer = bufnr, desc = "Show References" })
           
