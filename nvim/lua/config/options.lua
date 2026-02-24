@@ -20,6 +20,10 @@ opt.timeoutlen = 300
 
 opt.clipboard = "unnamedplus"
 
+opt.swapfile = false -- Disable swap files (we have auto-save)
+opt.backup = false -- Disable backup files
+opt.writebackup = false -- Disable backup before overwriting
+
 opt.laststatus = 3 -- Global statusline
 opt.showmode = false -- Don't show mode (already in statusline)
 opt.cmdheight = 0 -- Hide command line when not in use
