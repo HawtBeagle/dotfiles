@@ -20,7 +20,7 @@ capabilities.workspace = {
   configuration = true,
   workspaceFolders = true,
   didChangeConfiguration = { dynamicRegistration = true },
-  didChangeWatchedFiles = { dynamicRegistration = false },
+  didChangeWatchedFiles = { dynamicRegistration = true, relativePatternSupport = true },
 }
 
 local extendedClientCapabilities = jdtls.extendedClientCapabilities
@@ -34,7 +34,7 @@ local config = {
     vim.fn.stdpath("cache") .. "/jdtls/config",
     "-data",
     workspace_dir,
-    -- ULTRA PERFORMANCE: 8GB RAM + Optimized JVM Flags
+    -- ULTRA PERFORMANCE: 8GB RAM + Specialized Library Search
     "--jvm-arg=-Xms1g",
     "--jvm-arg=-Xmx8g",
     "--jvm-arg=-XX:+UseG1GC",
@@ -54,7 +54,8 @@ local config = {
     java = {
       project = {
         importOnFirstTimeStartup = "automatic",
-        resourceFilters = { "node_modules", ".git", "target", "build" },
+        -- Smart filtering: ignore heavy non-source folders
+        resourceFilters = { "node_modules", ".git", "target", "build", ".metadata" },
       },
       configuration = {
         updateBuildConfiguration = "automatic",
@@ -66,12 +67,16 @@ local config = {
         },
         maven = { enabled = true },
       },
-      -- PERFORMANCE: Optimized Search & Completion
+      -- BALANCED SEARCH SCOPE
       references = {
+        includeDecompiledSources = true, -- BACK ON: for library methods
+        includeAccessors = false,        -- KEEP OFF: ignores getters/setters for speed
+      },
+      implementations = {
         includeDecompiledSources = true,
       },
       completion = {
-        maxResults = 20, -- Faster menu response
+        maxResults = 20,
         favoriteStaticMembers = {
           "org.junit.jupiter.api.Assertions.*",
           "org.mockito.Mockito.*",
@@ -103,7 +108,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if client and client.name == "jdtls" then
       local opts = { buffer = bufnr, silent = true }
-      -- SILENCE THE UI: Performance win
       client.server_capabilities.semanticTokensProvider = nil
       
       vim.keymap.set("n", "<leader>ju", jdtls.update_project_config, { buffer = bufnr, desc = "Update Project Config" })

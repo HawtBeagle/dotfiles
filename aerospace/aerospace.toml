@@ -36,6 +36,7 @@ alt-shift-s = 'move-node-to-workspace S'
 alt-shift-d = 'move-node-to-workspace D'
 alt-shift-c = 'move-node-to-workspace C'
 alt-shift-b = 'move-node-to-workspace B'
+alt-shift-1 = 'move-node-to-workspace 1'
 
 alt-tab = 'workspace-back-and-forth'
 alt-f = 'fullscreen'
