@@ -1,7 +1,11 @@
 return {
   {
     "rcarriga/nvim-dap-ui",
-    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+    dependencies = { 
+      "mfussenegger/nvim-dap", 
+      "nvim-neotest/nvim-nio",
+      "mxsdev/nvim-dap-vscode-js",
+    },
     config = function()
       local dap = require("dap")
       local dapui = require("dapui")
@@ -17,6 +21,39 @@ return {
       end
       dap.listeners.before.event_exited["dapui_config"] = function()
         dapui.close()
+      end
+
+      -- TypeScript / JavaScript Configuration
+      require("dap-vscode-js").setup({
+        debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
+        adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+      })
+
+      for _, language in ipairs({ "typescript", "javascript", "typescriptreact", "javascriptreact" }) do
+        dap.configurations[language] = {
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Launch Current File (Node.js)",
+            program = "${file}",
+            cwd = "${workspaceFolder}",
+          },
+          {
+            type = "pwa-node",
+            request = "attach",
+            name = "Attach to Process",
+            processId = require("dap.utils").pick_process,
+            cwd = "${workspaceFolder}",
+          },
+          {
+            type = "pwa-chrome",
+            request = "launch",
+            name = "Launch Chrome (localhost:3000)",
+            url = "http://localhost:3000",
+            webRoot = "${workspaceFolder}",
+            userDataDir = false,
+          },
+        }
       end
 
       -- Java specific config

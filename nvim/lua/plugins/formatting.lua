@@ -18,7 +18,10 @@ return {
         lua = { "stylua" },
         -- Use LSP formatting for Java to respect .editorconfig/IntelliJ settings
         java = { "lsp" }, 
-        javascript = { { "prettierd", "prettier" } },
+        typescript = { "prettierd", "prettier", stop_after_first = true },
+        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascriptreact = { "prettierd", "prettier", stop_after_first = true },
         json = { "jq" },
         yaml = { "prettier" },
       },
