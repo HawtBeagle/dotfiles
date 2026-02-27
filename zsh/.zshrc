@@ -106,3 +106,14 @@ function y() {
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# --- Git Aliases ---
+alias status='git status'
+alias log='git log'
+alias check='git checkout'
+alias createb='git checkout -b'
+alias push='git push origin'
+alias pull='git pull origin'
+alias save='git stash save'
+alias slist='git stash list'
+alias apply='git stash apply'
