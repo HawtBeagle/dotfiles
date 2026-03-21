@@ -8,7 +8,7 @@ inner.horizontal = 10
 inner.vertical = 10
 outer.left = 10
 outer.bottom = 10
-outer.top = 10
+outer.top = [{ monitor.main = 15 }, { monitor.secondary = 45 }, 50]
 outer.right = 10
 
 [mode.main.binding]
@@ -29,6 +29,9 @@ alt-s = 'workspace S'
 alt-d = 'workspace D'
 alt-c = 'workspace C'
 alt-b = 'workspace B'
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
 
 alt-shift-q = 'move-node-to-workspace Q'
 alt-shift-t = 'move-node-to-workspace T'
@@ -37,6 +40,8 @@ alt-shift-d = 'move-node-to-workspace D'
 alt-shift-c = 'move-node-to-workspace C'
 alt-shift-b = 'move-node-to-workspace B'
 alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
 
 alt-tab = 'workspace-back-and-forth'
 alt-f = 'fullscreen'
@@ -44,6 +49,17 @@ alt-comma = 'layout accordion horizontal vertical'
 alt-slash = 'layout tiles horizontal vertical'
 cmd-q = 'close'
 alt-shift-semicolon = 'mode service'
+
+[workspace-to-monitor-force-assignment]
+'Q' = 'main'
+'T' = 'main'
+'S' = 'main'
+'D' = 'main'
+'C' = 'main'
+'B' = 'main'
+'1' = 'secondary'
+'2' = 'secondary'
+'3' = 'secondary'
 
 [mode.service.binding]
 esc = ['reload-config', 'mode main']

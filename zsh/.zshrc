@@ -12,6 +12,9 @@ export VISUAL='nvim'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+# Explicitly set vi mode early
+bindkey -v
+
 # Colorize more tools
 export CLICOLOR=1
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
@@ -89,6 +92,13 @@ zstyle ':fzf-tab:*' fzf-command fzf
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --icons=always $realpath'
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
+# --- Key Bindings (vi mode) ---
+# Accept autosuggestions with Ctrl-f (This is the "completing the word" behavior)
+bindkey -M viins '^F' autosuggest-accept
+bindkey -M vicmd '^F' autosuggest-accept
+
+# Note: fzf file search is still available on Ctrl-T (default fzf binding)
+
 # Local Run Tool
 alias localrun='~/Desktop/Personal/dotfiles/scripts/localrun.py'
 
@@ -109,7 +119,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # --- Git Aliases ---
 alias status='git status'
-alias log='git log'
+alias log="git log --graph --pretty=format:'%C(bold #b4befe)%h%Creset %C(#cdd6f4)%s%Creset %C(#94e2d5)(%cr)%Creset %C(bold #cba6f7)<%an>%Creset %C(#fab387)%d%Creset%n%C(#a6adc8)%b%Creset'"
 alias check='git checkout'
 alias createb='git checkout -b'
 alias push='git push origin'
@@ -119,3 +129,11 @@ alias slist='git stash list'
 alias apply='git stash apply'
 alias add='git add .'
 alias commit='git commit -m'
+alias reset='git reset'
+alias hreset='git reset --hard'
+alias squash='git rebase --interactive'
+alias merge='git merge'
+alias reset='git reset --soft'
+alias hreset='git reset --hard'
+alias branch='git branch'
+alias fetch='git fetch origin'

@@ -12,14 +12,12 @@ return {
           disabled_filetypes = { statusline = { "dashboard", "alpha", "neo-tree" } },
         },
         sections = {
-          lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
+          lualine_a = { { "mode", separator = { left = "" }, padding = { right = 2 } } },
           lualine_b = { "filename", "branch" },
-          lualine_c = {
-            "%=", -- center push
-          },
+          lualine_c = {},
           lualine_x = {},
           lualine_y = { "filetype", "progress" },
-          lualine_z = { { "location", separator = { right = "" }, left_padding = 2 } },
+          lualine_z = { { "location", separator = { right = "" }, padding = { left = 2 } } },
         },
       })
     end,

@@ -2,7 +2,6 @@ return {
   -- Mason for managing LSP servers
   {
     "williamboman/mason.nvim",
-    cmd = "Mason",
     build = ":MasonUpdate",
     opts = {
       ensure_installed = { 
@@ -15,6 +14,8 @@ return {
         "stylua",
         "java-debug-adapter",
         "java-test",
+        "gopls",
+        "delve",
       },
     },
   },
@@ -23,14 +24,6 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
-    opts = {
-      ensure_installed = {
-        "vtsls",
-        "eslint",
-        "yamlls",
-      },
-      automatic_installation = true,
-    },
   },
 
   -- TypeScript Helpers
@@ -47,37 +40,42 @@ return {
       "yioneko/nvim-vtsls",
     },
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lspconfig = require("lspconfig")
+      local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+      vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
+      
+      -- Initialize Mason
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = { "vtsls", "eslint", "yamlls", "gopls" },
+        automatic_installation = true,
+      })
 
-      -- Helper to setup servers properly
-      local setup_server = function(server, opts)
-        opts.capabilities = capabilities
-        -- Root detection: prefer project root, fallback to current working directory
-        opts.root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git") or vim.loop.cwd
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      -- Helper for Native Neovim 0.11+ setup
+      local function setup(server, root_markers, opts)
+        opts = opts or {}
+        opts.capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities or {})
+        opts.root_markers = root_markers
         
-        if vim.lsp.config then
-          vim.lsp.config(server, opts)
-          vim.lsp.enable(server)
-        else
-          lspconfig[server].setup(opts)
-        end
+        -- Native configuration
+        vim.lsp.config(server, opts)
+        vim.lsp.enable(server)
       end
 
-      -- YAML setup
-      setup_server("yamlls", {
+      -- Setup gopls
+      setup("gopls", { "go.mod", ".git" }, {
         settings = {
-          yaml = {
-            schemas = {
-              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.{yml,yaml}",
-              ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
-            },
+          gopls = {
+            analyses = { unusedparams = true },
+            staticcheck = true,
+            gofumpt = true,
           },
         },
       })
 
-      -- TypeScript setup (vtsls)
-      setup_server("vtsls", {
+      -- Setup vtsls (TypeScript)
+      setup("vtsls", { "package.json", "tsconfig.json", "jsconfig.json", ".git" }, {
         filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
         settings = {
           typescript = {
@@ -95,9 +93,21 @@ return {
         },
       })
 
-      -- ESLint setup
-      setup_server("eslint", {
+      -- Setup eslint
+      setup("eslint", { ".eslintrc", ".eslintrc.js", ".eslintrc.json", "package.json", ".git" }, {
         settings = { workingDirectory = { mode = "auto" } },
+      })
+
+      -- Setup yamlls
+      setup("yamlls", { ".git" }, {
+        settings = {
+          yaml = {
+            schemas = {
+              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.{yml,yaml}",
+              ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
+            },
+          },
+        },
       })
 
       -- Global LSP keybindings
@@ -143,6 +153,18 @@ return {
           -- Actions
           vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
+
+          -- INLAY HINTS TOGGLE (Fix for Neovim 0.11 "Invalid col" crash)
+          if vim.lsp.inlay_hint then
+            -- Disable by default for stability (optional, remove next line to keep enabled)
+            vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+            
+            vim.keymap.set("n", "<leader>th", function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+              local status = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "Enabled" or "Disabled"
+              vim.notify("Inlay Hints " .. status)
+            end, { buffer = bufnr, desc = "Toggle Inlay Hints" })
+          end
         end,
       })
     end,

@@ -15,6 +15,7 @@ DARK_BG=0xff1e1e2e
 # --- Global Bar Config ---
 sketchybar --bar \
   height=36 \
+  display=all \
   color=$BAR_COLOR \
   position=top \
   sticky=on \

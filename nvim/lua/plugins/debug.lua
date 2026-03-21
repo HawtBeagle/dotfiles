@@ -5,12 +5,14 @@ return {
       "mfussenegger/nvim-dap", 
       "nvim-neotest/nvim-nio",
       "mxsdev/nvim-dap-vscode-js",
+      "leoluz/nvim-dap-go",
     },
     config = function()
       local dap = require("dap")
       local dapui = require("dapui")
       
       dapui.setup()
+      require("dap-go").setup()
 
       -- Automatically open/close UI
       dap.listeners.after.event_initialized["dapui_config"] = function()
