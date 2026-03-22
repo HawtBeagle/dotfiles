@@ -58,6 +58,7 @@ alias doc='open ~/Desktop/Personal/dotfiles-docs/index.html'
 alias reload='source ~/.zshrc'
 alias cd='z'
 alias lg='lazygit'
+
 # JDTLS troubleshooting: Clear cache for the CURRENT project only
 function jdtls-clear() {
     local project_name=$(basename "$PWD")
@@ -71,8 +72,13 @@ function jdtls-clear() {
 }
 alias mux-spring='tmuxinator start spring-boot'
 alias cat='bat'
-alias top='btm'
-export BAT_THEME="Catppuccin Mocha"
+# --- Dynamic Themes ---
+theme=$(cat ~/Desktop/Personal/dotfiles/.theme_mode 2>/dev/null || echo "gruvbox")
+if [ "$theme" = "gruvbox" ]; then
+    export BAT_THEME="gruvbox-dark"
+else
+    export BAT_THEME="Catppuccin Mocha"
+fi
 
 # --- SDKMAN (if installed) ---
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

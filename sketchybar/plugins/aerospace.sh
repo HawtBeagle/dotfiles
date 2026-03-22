@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# --- Colors (Must match sketchybarrc) ---
-BAR_COLOR=0xff1e1e2e
-ITEM_BG_COLOR=0xff313244
-ACCENT_COLOR=0xffcba6f7
-TEXT_COLOR=0xffcdd6f4
+# --- Source Active Theme ---
+source "$CONFIG_DIR/theme.sh"
 
 TARGET_WORKSPACE=$1
 CURRENT_WORKSPACE=$(aerospace list-workspaces --focused)

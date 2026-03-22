@@ -1,0 +1,1 @@
+/Users/ganti/licious/Desktop/Personal/dotfiles/themes/gruvbox/tmux.conf

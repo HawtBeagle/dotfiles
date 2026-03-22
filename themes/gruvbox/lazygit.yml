@@ -1,0 +1,28 @@
+# LazyGit Configuration (Catppuccin Mocha)
+gui:
+  theme:
+    activeBorderColor:
+      - "#89b4fa" # blue
+      - bold
+    inactiveBorderColor:
+      - "#585b70" # surface1
+    optionsTextColor:
+      - "#89b4fa" # blue
+    selectedLineBgColor:
+      - "#313244" # surface0
+    selectedRangeBgColor:
+      - "#313244" # surface0
+    cherryPickedCommitBgColor:
+      - "#94e2d5" # teal
+    cherryPickedCommitFgColor:
+      - "#89b4fa" # blue
+    unstagedChangesColor:
+      - "#f38ba8" # red
+    defaultFgColor:
+      - "#cdd6f4" # text
+  border: rounded
+  showIcons: true
+git:
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never --syntax-theme=base16 --line-numbers

@@ -1,0 +1,29 @@
+[manager]
+cwd = { fg = "#94e2d5" }
+hovered         = { fg = "#000000", bg = "#89b4fa", bold = true }
+preview_hovered = { underline = true }
+[status]
+separator_open  = ""
+separator_close = ""
+mode_normal = { fg = "#000000", bg = "#89b4fa", bold = true }
+mode_select = { fg = "#000000", bg = "#94e2d5", bold = true }
+mode_unset  = { fg = "#000000", bg = "#f2cdcd", bold = true }
+pos_normal = { fg = "#000000", bg = "#89b4fa", bold = true }
+pos_label  = { fg = "#000000", bg = "#89b4fa", bold = true }
+perm_type  = { fg = "#89b4fa" }
+perm_read  = { fg = "#f9e2af" }
+perm_write = { fg = "#f38ba8" }
+perm_exec  = { fg = "#a6e3a1" }
+perm_sep   = { fg = "#7f849c" }
+[select]
+border   = { fg = "#89b4fa" }
+active   = { fg = "#f5c2e7", bold = true }
+[input]
+border   = { fg = "#89b4fa" }
+[completion]
+border = { fg = "#89b4fa" }
+[filetype]
+rules = [
+	{ mime = "image/*", fg = "#94e2d5" },
+	{ url = "*/", fg = "#89b4fa" },
+]

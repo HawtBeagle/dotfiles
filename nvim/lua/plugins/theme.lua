@@ -1,40 +1,48 @@
+local theme = require("config.theme_selector").get_theme()
+
 return {
+  {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
+    enabled = (theme == "gruvbox"),
+    config = function()
+      require("gruvbox").setup({
+        terminal_colors = true,
+        transparent_mode = true,
+        overrides = {
+          NormalFloat = { bg = "none" },
+          FloatBorder = { bg = "none", fg = "#83a598" },
+          Pmenu = { bg = "none" },
+          PmenuSel = { bg = "#3c3836", fg = "none" },
+          TelescopeNormal = { bg = "none" },
+          TelescopeBorder = { bg = "none" },
+          NeoTreeNormal = { bg = "none" },
+          NeoTreeNormalNC = { bg = "none" },
+        },
+      })
+      vim.cmd.colorscheme("gruvbox")
+    end,
+  },
   {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
+    enabled = (theme == "catppuccin"),
     config = function()
       require("catppuccin").setup({
-        flavour = "mocha", -- latte, frappe, macchiato, mocha
-        transparent_background = true, -- Matches your blurred WezTerm
-        show_end_of_buffer = false, -- hide ~ at end of buffer
-        term_colors = true,
+        flavour = "mocha",
+        transparent_background = true,
         integrations = {
-          cmp = true,
-          gitsigns = true,
-          nvimtree = true,
-          treesitter = true,
-          notify = true,
-          mini = true,
-          neotree = true,
-          telescope = {
-            enabled = true,
-            style = "nvchad", -- a very clean transparent style
-          },
-          which_key = true,
-          alpha = true,
+          cmp = true, gitsigns = true, nvimtree = true, treesitter = true,
+          notify = true, mini = true, neotree = true, telescope = { enabled = true, style = "nvchad" },
+          which_key = true, alpha = true,
         },
         custom_highlights = function(colors)
           return {
-            -- Force all floating windows and borders to be transparent
-            NormalFloat = { bg = "none" },
-            FloatBorder = { bg = "none", fg = colors.blue },
-            Pmenu = { bg = "none" }, -- Completion menu
-            PmenuSel = { bg = colors.surface0, fg = "none" }, -- Completion selection
-            TelescopeNormal = { bg = "none" },
-            TelescopeBorder = { bg = "none" },
-            NeoTreeNormal = { bg = "none" },
-            NeoTreeNormalNC = { bg = "none" },
+            NormalFloat = { bg = "none" }, FloatBorder = { bg = "none", fg = colors.blue },
+            Pmenu = { bg = "none" }, PmenuSel = { bg = colors.surface0, fg = "none" },
+            TelescopeNormal = { bg = "none" }, TelescopeBorder = { bg = "none" },
+            NeoTreeNormal = { bg = "none" }, NeoTreeNormalNC = { bg = "none" },
           }
         end,
       })

@@ -45,10 +45,15 @@ alt-shift-3 = 'move-node-to-workspace 3'
 
 alt-tab = 'workspace-back-and-forth'
 alt-f = 'fullscreen'
+alt-shift-e = 'exec-and-forget /Applications/WezTerm.app/Contents/MacOS/wezterm start -- /Users/ganti/licious/Desktop/Personal/dotfiles/scripts/theme-selector.sh'
 alt-comma = 'layout accordion horizontal vertical'
 alt-slash = 'layout tiles horizontal vertical'
 cmd-q = 'close'
 alt-shift-semicolon = 'mode service'
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'Theme Selector'
+run = 'layout floating'
 
 [workspace-to-monitor-force-assignment]
 'Q' = 'main'
