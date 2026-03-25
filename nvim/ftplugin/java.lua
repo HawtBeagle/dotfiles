@@ -59,6 +59,25 @@ local config = {
       },
       configuration = {
         updateBuildConfiguration = "automatic",
+        runtimes = {
+          {
+            name = "JavaSE-11",
+            path = "/Users/ganti/licious/Library/Java/JavaVirtualMachines/corretto-11.0.30/Contents/Home",
+          },
+          {
+            name = "JavaSE-17",
+            path = "/opt/homebrew/Cellar/openjdk@17/17.0.18/libexec/openjdk.jdk/Contents/Home",
+          },
+          {
+            name = "JavaSE-21",
+            path = "/Users/ganti/licious/Library/Java/JavaVirtualMachines/ms-21.0.9/Contents/Home",
+          },
+          {
+            name = "JavaSE-24",
+            path = "/Users/ganti/licious/Library/Java/JavaVirtualMachines/openjdk-24.0.2+12-54/Contents/Home",
+            default = true,
+          },
+        },
       },
       import = {
         gradle = { 
@@ -70,11 +89,13 @@ local config = {
       -- BALANCED SEARCH SCOPE
       references = {
         includeDecompiledSources = true, -- BACK ON: for library methods
-        includeAccessors = false,        -- KEEP OFF: ignores getters/setters for speed
+        includeAccessors = true,         -- ENABLED: helps find Spring bean usage
       },
       implementations = {
         includeDecompiledSources = true,
       },
+      referencesCodeLens = { enabled = true },
+      implementationsCodeLens = { enabled = true },
       completion = {
         maxResults = 20,
         favoriteStaticMembers = {
@@ -85,7 +106,7 @@ local config = {
         },
       },
       autobuild = { enabled = true },
-      saveActions = { organizeImports = true },
+      saveActions = { organizeImports = false },
       signatureHelp = { enabled = false },
       contentProvider = { preferred = "fernflower" },
     },
@@ -98,22 +119,36 @@ local config = {
   },
 }
 
+-- Add test bundles
 local test_bundles = vim.split(vim.fn.glob(vim.fn.expand("~/.local/share/nvim/mason/packages/java-test/extension/server/*.jar"), 1), "\n")
 vim.list_extend(config.init_options.bundles, test_bundles)
 
--- Add Java-specific refactoring keybindings
+-- Add Spring Boot bundles if plugin is available
+local status_ok, spring_boot = pcall(require, "spring_boot")
+if status_ok then
+  vim.list_extend(config.init_options.bundles, spring_boot.java_extensions())
+end
+
+-- Add Java-specific refactoring keybindings and CodeLens refresh
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if client and client.name == "jdtls" then
       local opts = { buffer = bufnr, silent = true }
-      client.server_capabilities.semanticTokensProvider = nil
       
       vim.keymap.set("n", "<leader>ju", jdtls.update_project_config, { buffer = bufnr, desc = "Update Project Config" })
       vim.keymap.set("v", "<leader>rm", "<Esc><Cmd>lua require('jdtls').extract_method(true)<CR>", { buffer = bufnr, desc = "Extract Method" })
       vim.keymap.set("v", "<leader>rv", "<Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>", { buffer = bufnr, desc = "Extract Variable" })
       vim.keymap.set("v", "<leader>rc", "<Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>", { buffer = bufnr, desc = "Extract Constant" })
+
+      -- Auto-refresh CodeLens
+      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.codelens.refresh()
+        end,
+      })
     end
   end,
 })

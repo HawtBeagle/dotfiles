@@ -6,6 +6,7 @@ return {
     opts = {
       ensure_installed = { 
         "jdtls", 
+        "vscode-spring-boot-tools",
         "vtsls",
         "eslint-lsp",
         "prettierd",
@@ -46,7 +47,7 @@ return {
       -- Initialize Mason
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = { "vtsls", "eslint", "yamlls", "gopls" },
+        ensure_installed = { "vtsls", "eslint", "yamlls", "gopls", "sts4" },
         automatic_installation = true,
       })
 
@@ -110,6 +111,27 @@ return {
         },
       })
 
+      -- Setup yamlls
+-- ... existing code ...
+
+      -- Custom Diagnostic Handler to dim entire line for unused imports
+      local original_publish_diagnostics = vim.lsp.handlers["textDocument/publishDiagnostics"]
+      vim.lsp.handlers["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+        if result and result.diagnostics then
+          for _, diagnostic in ipairs(result.diagnostics) do
+            -- Look for "unnecessary" tag (unused code)
+            if diagnostic.tags and vim.tbl_contains(diagnostic.tags, 1) then
+              -- Expand diagnostic range to the start of the line
+              diagnostic.range.start.character = 0
+            end
+          end
+        end
+        original_publish_diagnostics(_, result, ctx, config)
+      end
+
+      -- Setup sts4 (Spring Boot Tools)
+      setup("sts4", { "pom.xml", "build.gradle", "build.gradle.kts", ".git" })
+
       -- Global LSP keybindings
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
@@ -127,6 +149,16 @@ return {
             builtin.lsp_implementations(themes.get_cursor(cursor_theme))
           end, { buffer = bufnr, desc = "Go to Implementation" })
           
+          vim.keymap.set("n", "sr", function()
+            builtin.lsp_references(vim.tbl_extend("force", themes.get_cursor(cursor_theme), {
+              include_declaration = false,
+            }))
+          end, { buffer = bufnr, desc = "Show References" })
+          
+          vim.keymap.set("n", "gt", function()
+            builtin.lsp_type_definitions(themes.get_cursor(cursor_theme))
+          end, { buffer = bufnr, desc = "Go to Type Definition" })
+
           -- SMART SUPER JUMP (Implementation -> Interface)
           vim.keymap.set("n", "gh", function()
             local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -137,19 +169,13 @@ return {
             end
           end, { buffer = bufnr, desc = "Go to Super/Interface" })
           
-          vim.keymap.set("n", "sr", function()
-            builtin.lsp_references(themes.get_ivy({
-              layout_config = { height = 0.4 },
-              include_declaration = false,
-            }))
-          end, { buffer = bufnr, desc = "Show References (Fast)" })
-          
-          vim.keymap.set("n", "gt", function()
-            builtin.lsp_type_definitions(themes.get_cursor(cursor_theme))
-          end, { buffer = bufnr, desc = "Go to Type Definition" })
-          
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Hover Docs" })
           
+          -- Diagnostics (Error/Warning info)
+          vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { buffer = bufnr, desc = "Show Line Diagnostics" })
+          vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { buffer = bufnr, desc = "Previous Diagnostic" })
+          vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { buffer = bufnr, desc = "Next Diagnostic" })
+
           -- Actions
           vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
@@ -167,11 +193,45 @@ return {
           end
         end,
       })
+
+      -- AUTO-START JDTLS on Project Open
+      -- Detects Java markers and triggers ftplugin/java.lua
+      vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
+        callback = function()
+          local markers = { "pom.xml", "build.gradle", "build.gradle.kts" }
+          for _, marker in ipairs(markers) do
+            if vim.fn.filereadable(vim.fn.getcwd() .. "/" .. marker) == 1 then
+              -- Temporarily set filetype to java to trigger jdtls
+              vim.cmd("silent! set filetype=java")
+              -- Do not reset filetype immediately, let jdtls start
+              vim.defer_fn(function()
+                -- If we are still in a directory (like neo-tree or alpha), 
+                -- reset the filetype so we don't get java syntax on a dashboard
+                local buftype = vim.bo.buftype
+                local filetype = vim.bo.filetype
+                if buftype == "nofile" or filetype == "alpha" then
+                  vim.cmd("silent! set filetype=")
+                end
+              end, 500)
+              break
+            end
+          end
+        end,
+      })
     end,
   },
   -- JDTLS for advanced Java support
   {
     "mfussenegger/nvim-jdtls",
     ft = { "java" },
+  },
+
+  -- Spring Boot specialized support
+  {
+    "JavaHello/spring-boot.nvim",
+    dependencies = {
+      "mfussenegger/nvim-jdtls",
+    },
+    opts = {},
   },
 }

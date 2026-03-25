@@ -10,16 +10,26 @@ return {
     config = function()
       require("neo-tree").setup({
         filesystem = {
+          group_empty_dirs = true, -- group empty nested directories (great for Java/web)
+          follow_current_file = {
+            enabled = true, -- focus current file in the tree
+            leave_dirs_open = true, -- keep dirs open when moving away
+          },
           filtered_items = {
-            visible = true, -- when true, they will be displayed even if other settings would normally hide them
+            visible = true,
             hide_dotfiles = false,
             hide_gitignored = false,
-            hide_hidden = false, -- only works on Windows for hidden files/folders
+            hide_hidden = false,
           },
         },
         window = {
           position = "left",
-          width = 30,
+          width = 40,
+          mappings = {
+            ["<cr>"] = "open", -- ensure enter opens in main window
+            ["l"] = "open", 
+            ["h"] = "close_node",
+          },
           popup = {
             border = {
               style = "rounded",

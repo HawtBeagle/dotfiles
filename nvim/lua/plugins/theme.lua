@@ -10,6 +10,13 @@ return {
         terminal_colors = true,
         transparent_mode = true,
         overrides = {
+          -- Dim unused code like IntelliJ
+          DiagnosticUnnecessary = { fg = "#a89984", italic = true },
+          -- Exhaustive semantic overrides for unused code
+          ["@lsp.mod.unused"] = { link = "DiagnosticUnnecessary" },
+          ["@lsp.type.import"] = { link = "DiagnosticUnnecessary" },
+          ["@lsp.type.keyword"] = { link = "DiagnosticUnnecessary" }, -- Only applied when modified by 'unused'
+          
           NormalFloat = { bg = "none" },
           FloatBorder = { bg = "none", fg = "#83a598" },
           Pmenu = { bg = "none" },
@@ -39,6 +46,12 @@ return {
         },
         custom_highlights = function(colors)
           return {
+            -- Dim unused code like IntelliJ
+            DiagnosticUnnecessary = { fg = colors.overlay0, italic = true },
+            -- Exhaustive semantic overrides for unused code
+            ["@lsp.mod.unused"] = { link = "DiagnosticUnnecessary" },
+            ["@lsp.type.import"] = { link = "DiagnosticUnnecessary" },
+
             NormalFloat = { bg = "none" }, FloatBorder = { bg = "none", fg = colors.blue },
             Pmenu = { bg = "none" }, PmenuSel = { bg = colors.surface0, fg = "none" },
             TelescopeNormal = { bg = "none" }, TelescopeBorder = { bg = "none" },

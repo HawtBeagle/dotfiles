@@ -44,7 +44,7 @@ bindkey '^[[B' down-line-or-beginning-search # Down Arrow
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-setopt CORRECT # Enable auto-correction for typos
+unsetopt CORRECT # Disable auto-correction for typos
 
 # --- Prompt (Starship) ---
 eval "$(starship init zsh)"

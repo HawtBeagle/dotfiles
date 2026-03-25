@@ -42,6 +42,8 @@ end
 
 -- Smoother cursor animations
 config.animation_fps = 120
+config.default_cursor_style = 'BlinkingBlock'
+config.cursor_blink_rate = 500
 config.cursor_blink_ease_in = "EaseIn"
 config.cursor_blink_ease_out = "EaseOut"
 

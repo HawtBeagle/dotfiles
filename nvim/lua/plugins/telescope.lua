@@ -33,6 +33,9 @@ return {
             height = 0.80,
           },
           sorting_strategy = "ascending",
+          tiebreak = function(current_entry, existing_entry, _)
+            return current_entry.index < existing_entry.index
+          end,
           path_display = function(opts, path)
             local tail = require("telescope.utils").path_tail(path)
             return string.format("%s (%s)", tail, shorten_path(path))

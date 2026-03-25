@@ -24,6 +24,10 @@ ln -sf "$DOTFILES_DIR/themes/$THEME/lazygit.yml" "$DOTFILES_DIR/lazygit/config.y
 # Yazi
 ln -sf "$DOTFILES_DIR/themes/$THEME/yazi_theme.toml" "$DOTFILES_DIR/yazi/theme.toml"
 
+# Git
+ln -sf "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+ln -sf "$DOTFILES_DIR/themes/$THEME/gitconfig" "$DOTFILES_DIR/git/theme.gitconfig"
+
 # Tmux Theme
 ln -sf "$DOTFILES_DIR/themes/$THEME/tmux.conf" "$DOTFILES_DIR/tmux/theme.tmux"
 
@@ -47,6 +51,10 @@ touch "$DOTFILES_DIR/wezterm/wezterm.lua"
 
 # AeroSpace
 aerospace reload-config
+
+# Navi
+mkdir -p "$HOME/Library/Application Support/navi"
+ln -sf "$DOTFILES_DIR/navi/config.yaml" "$HOME/Library/Application Support/navi/config.yaml"
 
 # Zsh (Update all running shells)
 if [ -n "$ZSH_VERSION" ]; then

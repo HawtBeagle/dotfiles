@@ -17,7 +17,8 @@ return {
         end,
       })
       -- Toggle the symbols outline
-      vim.keymap.set("n", "<leader>s", "<cmd>AerialToggle! right<cr>", { desc = "Toggle Symbols Outline" })
+      vim.keymap.set("n", "<leader>ss", "<cmd>AerialToggle! right<cr>", { desc = "Toggle Symbols Outline" })
+
     end,
   },
 }

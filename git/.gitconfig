@@ -1,0 +1,38 @@
+[user]
+    name = ganti
+    email = ganti@example.com
+
+[core]
+    pager = delta
+    editor = nvim
+    excludesfile = /Users/ganti/licious/Desktop/Personal/dotfiles/zsh/global.gitignore
+
+[interactive]
+    diffFilter = delta --color-only
+
+[include]
+    path = theme.gitconfig
+
+[merge]
+    conflictstyle = zdiff3
+
+[diff]
+    tool = nvimdiff
+
+[difftool]
+    prompt = false
+
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[alias]
+    dft = difftool
+    d = diff
+    st = status
+    l = log --oneline --graph --decorate

@@ -1,7 +1,7 @@
 command_timeout = 2000
 add_newline = true
 palette = "catppuccin_mocha"
-format = "$character "
+format = "  $character "
 right_format = """
 $directory\
 $git_branch\

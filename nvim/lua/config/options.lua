@@ -18,6 +18,13 @@ opt.signcolumn = "yes"
 opt.updatetime = 250
 opt.timeoutlen = 300
 
+opt.autoread = true -- Automatically reload files changed on disk
+
+-- Trigger checktime when files change on disk
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  command = "silent! checktime",
+})
+
 opt.clipboard = "unnamedplus"
 
 opt.swapfile = false -- Disable swap files (we have auto-save)

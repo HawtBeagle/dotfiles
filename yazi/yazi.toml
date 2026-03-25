@@ -6,13 +6,16 @@ sort_reverse   = false
 sort_dir_first = true
 show_hidden    = true
 show_symlink   = true
+linemode       = "mtime"
 
 [preview]
 tab_size        = 4
 max_width       = 600
 max_height      = 900
+cache_dir       = ""
 image_filter    = "triangle"
 image_quality   = 75
+sixel_fraction  = 15
 
 [opener]
 edit = [
@@ -28,5 +31,3 @@ rules = [
 	{ mime = "text/*", use = "edit" },
 	{ mime = "image/*", use = "open" },
 ]
-
-# We are using theme.toml for colors, not a flavor
