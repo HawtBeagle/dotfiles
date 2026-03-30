@@ -47,7 +47,7 @@ return {
       -- Initialize Mason
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = { "vtsls", "eslint", "yamlls", "gopls", "sts4" },
+        ensure_installed = { "vtsls", "eslint", "yamlls", "gopls" },
         automatic_installation = true,
       })
 
@@ -129,9 +129,6 @@ return {
         original_publish_diagnostics(_, result, ctx, config)
       end
 
-      -- Setup sts4 (Spring Boot Tools)
-      setup("sts4", { "pom.xml", "build.gradle", "build.gradle.kts", ".git" })
-
       -- Global LSP keybindings
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
@@ -180,15 +177,24 @@ return {
           vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
 
-          -- INLAY HINTS TOGGLE (Fix for Neovim 0.11 "Invalid col" crash)
+          -- Inlay hints can crash in Neovim 0.11 diff/merge windows.
           if vim.lsp.inlay_hint then
-            -- Disable by default for stability (optional, remove next line to keep enabled)
+            local function in_diff_mode()
+              return vim.wo.diff or vim.opt_local.diff:get()
+            end
+
             vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-            
+
             vim.keymap.set("n", "<leader>th", function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
-              local status = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }) and "Enabled" or "Disabled"
-              vim.notify("Inlay Hints " .. status)
+              if in_diff_mode() then
+                vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+                vim.notify("Inlay hints are disabled in diff/merge windows")
+                return
+              end
+
+              local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+              vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
+              vim.notify("Inlay Hints " .. (enabled and "Disabled" or "Enabled"))
             end, { buffer = bufnr, desc = "Toggle Inlay Hints" })
           end
         end,

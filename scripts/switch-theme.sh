@@ -52,6 +52,11 @@ touch "$DOTFILES_DIR/wezterm/wezterm.lua"
 # AeroSpace
 aerospace reload-config
 
+# Tmuxinator
+mkdir -p "$HOME/.config/tmuxinator"
+ln -sf "$DOTFILES_DIR/tmuxinator/spring-boot.yml" "$HOME/.config/tmuxinator/spring-boot.yml"
+ln -sf "$DOTFILES_DIR/tmuxinator/node.yml" "$HOME/.config/tmuxinator/node.yml"
+
 # Navi
 mkdir -p "$HOME/Library/Application Support/navi"
 ln -sf "$DOTFILES_DIR/navi/config.yaml" "$HOME/Library/Application Support/navi/config.yaml"

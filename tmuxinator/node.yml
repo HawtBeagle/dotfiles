@@ -1,0 +1,15 @@
+# ~/.config/tmuxinator/node.yml
+
+name: <%= File.basename(Dir.pwd).gsub('.', '_') %>
+root: .
+
+windows:
+  - Code:
+      panes:
+        - nvim .
+  - Git:
+      panes:
+        - lg
+  - Server:
+      panes:
+        - # Ready for npm run dev

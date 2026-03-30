@@ -1,7 +1,3 @@
-[user]
-    name = ganti
-    email = ganti@example.com
-
 [core]
     pager = delta
     editor = nvim
@@ -13,13 +9,23 @@
 [include]
     path = theme.gitconfig
 
+[includeIf "gitdir:/Users/ganti/licious/Desktop/Personal/"]
+    path = /Users/ganti/licious/Desktop/Personal/dotfiles/git/personal.gitconfig
+
+[includeIf "gitdir:/Users/ganti/licious/Desktop/Licious_catalog/"]
+    path = /Users/ganti/licious/Desktop/Personal/dotfiles/git/work.gitconfig
+
 [merge]
     conflictstyle = zdiff3
+    tool = nvimdiff2
 
 [diff]
     tool = nvimdiff
 
 [difftool]
+    prompt = false
+
+[mergetool]
     prompt = false
 
 [difftool "nvimdiff"]

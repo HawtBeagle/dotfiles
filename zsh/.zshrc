@@ -71,6 +71,7 @@ function jdtls-clear() {
     echo "Done. Please restart Neovim to re-index."
 }
 alias mux-spring='tmuxinator start spring-boot'
+alias mux-js='tmuxinator start node'
 alias cat='bat'
 # --- Dynamic Themes ---
 theme=$(cat ~/Desktop/Personal/dotfiles/.theme_mode 2>/dev/null || echo "gruvbox")

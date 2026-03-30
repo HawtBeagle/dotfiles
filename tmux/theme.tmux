@@ -1,1 +1,1 @@
-/Users/ganti/licious/Desktop/Personal/dotfiles/themes/gruvbox/tmux.conf
+/Users/ganti/licious/Desktop/Personal/dotfiles/themes/catppuccin/tmux.conf
